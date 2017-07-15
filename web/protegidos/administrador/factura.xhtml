@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../plantillas/general.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+                <ui:define name="content">
+                    <h:form id="frmFacturas">  
+                        <p:panel id="pnlFacturas">
+                            
+                            <center><h1>TABLA FACTURA</h1></center>
+                
+                            <p:dataTable 
+                                
+                                id="tblFacturas"
+                                var="fac" 
+                                value="#{cFactura.lista}"
+                                selectionMode="single"
+                                selection="#{cFactura.selectedFactura}"
+                                rowKey="#{fac.id_factura}">
+                                
+                                <p:column 
+                                    headerText="NO_FACTURA"
+                                    style="width: 10%">
+                                    <h:outputText value="#{fac.id_factura}" />
+                                </p:column>
+                                
+                                <p:column 
+                                    headerText="NOMBRE"
+                                    style="width: 30%">
+                                    <h:outputText value="#{fac.cliente.nombre}" />
+                                </p:column>
+                                
+                                <p:column 
+                                    headerText="FECHA"
+                                    style="width: 30%">
+                                    <h:outputText value="#{fac.fecha}" />
+                                </p:column>
+ 
+                                <p:column 
+                                    headerText="SUBTOTAL"
+                                    style="width: 20%">
+                                    <h:outputText value="#{fac.subtotal}" />
+                                </p:column>
+                                
+                                <p:column 
+                                    headerText="IVA"
+                                    style="width: 20%">
+                                    <h:outputText value="#{fac.iva}" />
+                                </p:column>
+                                
+                                <p:column 
+                                    headerText="TOTAL"
+                                    style="width: 20%">
+                                    <h:outputText value="#{fac.total}" />
+                                </p:column>
+                                
+                                
+        <f:facet name="footer">
+             <p:commandButton id="btnnuevo"  value="Nuevo" oncomplete="PF('wdlgNuevo').show();" />                            
+             <p:commandButton id="btnModificar" value="Modificar" oncomplete="PF('wdlgModificar').show();" />
+             <p:commandButton id="btnEliminar" value="Eliminar" oncomplete="PF('wdlgEliminar').show();" />   
+        </f:facet>   
+        
+        
+</p:dataTable>
+         </p:panel>
+    </h:form>
+                    
+            <p:dialog 
+            
+                     
+            id="dlgAgregar" 
+            header="Nuevo Factura"
+            widgetVar="wdlgNuevo" 
+            modal="true"
+            resizable="false" 
+            showEffect="clip"
+            hideEffect="fold">
+                
+                
+            <h:form id="frmNuevoFactura">
+                <p:panelGrid 
+                    id="pngNuevoFactura" 
+                    columns="2">
+                    
+                   <h:outputText value="No_Factura" />
+                    <p:inputText 
+                        required="true" 
+                        readonly="true"
+                        value="#{cFactura.selectedFactura.id_factura}" />
+                    
+                    <h:outputText value="Cliente" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se requiere un Nombre"
+                        value="#{cFactura.selectedFactura.cliente.nombre}" />
+                    
+                    <h:outputText value="Fecha" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se el Stock"
+                        value="#{cFactura.selectedFactura.fecha}" /> 
+                    
+                    <h:outputText value="Subtotal" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se requiere el precio de la Venta"
+                        value="#{cFactura.selectedFactura.subtotal}" />
+                   
+                
+                <h:outputText value="IVA" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se requiere el precio de la Venta"
+                        value="#{cFactura.selectedFactura.iva}" />
+                    
+                    
+                <h:outputText value="Total" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se requiere el precio de la Venta"
+                        value="#{cFactura.selectedFactura.total}" />
+                    </p:panelGrid>   
+                    
+                
+                <p:commandButton
+                    
+                    value="ingresar"
+                    action="#{cFactura.insertar()}"
+                    update=":frmFacturas:pnlFacturas :frmNuevoFactura" 
+                    onclick="wdlgNuevo.hide();"/>
+                <p:commandButton 
+                    value="Cancelar"
+                    immediate="true" 
+                    oncomplete="PF('wdlgNuevo').hide();" 
+                    type="reset"/>
+
+                </h:form>
+                        
+        </p:dialog>   
+                   
+                    
+               
+    </ui:define>
+
+</ui:composition>

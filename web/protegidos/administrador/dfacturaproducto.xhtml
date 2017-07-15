@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../plantillas/general.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="frmDFacturaProducto">  
+            <p:panel id="pnlDFacturaProducto">
+                
+                <center><h1>TABLA  DETALLE FACTURA </h1></center>
+                
+                <p:dataTable 
+                    
+                    id="tblDFacturaProducto"
+                    var="dfacpro"
+                    value="#{cDfacturaproducto.lista}"
+                    selectionMode="single"
+                    selection="#{cDfacturaproducto.selectedDFacturapProducto}"
+                    rowKey="#{dfacpro.id_dfacturaproducto}">
+                    
+                    
+                    <p:column 
+                        headerText="Codigo DETALLE_FACTURA_PRODUCTO"
+                        style="width: 10%">
+                        <h:outputText value="#{dfacpro.id_dfacturaproducto}" />
+                    </p:column>
+                    
+                    
+                    <p:column 
+                        headerText="NO_FACTURA"
+                        style="width: 30%">
+                        <h:outputText value="#{dfacpro.factura.id_factura}" />
+                    </p:column>
+                    
+                    
+                    <p:column 
+                        headerText="PRODUCTO"
+                        style="width: 30%">
+                        <h:outputText value="#{dfacpro.producto.nombre}" />
+                    </p:column>
+                    
+                    <p:column 
+                        headerText="CANTIDAD"
+                        style="width: 20%">
+                        <h:outputText value="#{dfacpro.cantidad}" />
+                    </p:column>
+                    
+                    <p:column 
+                        headerText="SUBTOTAL"
+                        style="width: 20%">
+                        <h:outputText value="#{dfacpro.subtotal}" />
+                    </p:column>
+                    
+                    
+        <f:facet name="footer">
+             <p:commandButton id="btnnuevo"  value="Nuevo" oncomplete="PF('wdlgNuevo').show();" />                            
+             <p:commandButton id="btnModificar" value="Modificar" oncomplete="PF('wdlgModificar').show();" />
+             <p:commandButton id="btnEliminar" value="Eliminar" oncomplete="PF('wdlgEliminar').show();" />   
+        </f:facet>   
+        
+</p:dataTable>
+         </p:panel>
+    </h:form>
+                    
+            <p:dialog 
+            
+                     
+            id="dlgAgregar" 
+            header="Nuevo Detalle Factura"
+            widgetVar="wdlgNuevo" 
+            modal="true"
+            resizable="false" 
+            showEffect="clip"
+            hideEffect="fold">
+                
+                
+            <h:form id="frmNuevoDFacturaProducto">
+                <p:panelGrid 
+                    id="pngNuevoDFacturaProducto" 
+                    columns="2">
+                    
+                   <h:outputText value="Codigo Detalle factura Producto" />
+                    <p:inputText 
+                        required="true" 
+                        readonly="true"
+                        value="#{cDfacturaproducto.selectedDFacturapProducto.id_dfacturaproducto}" />
+                    
+                    <h:outputText value="Cliente_Id" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se requiere un Id"
+                        value="#{cDfacturaproducto.selectedDFacturapProducto.factura.id_factura}" />
+                    
+                    <h:outputText value="Producto" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se el producto"
+                        value="#{cDfacturaproducto.selectedDFacturapProducto.producto.nombre}" /> 
+                    
+                    <h:outputText value="Cantidad" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se requiere la cantidad"
+                        value="#{cDfacturaproducto.selectedDFacturapProducto.cantidad}" />
+                   
+                
+                <h:outputText value="IVA" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se requiere Subtotal"
+                        value="#{cDfacturaproducto.selectedDFacturapProducto.subtotal}" />
+                    
+
+                    </p:panelGrid>   
+                <p:commandButton
+                    
+                    value="ingresar"
+                    action="#{cDfacturaproducto.insertar()}"
+                    update=":frmDFacturaProducto:pnlDFacturaProductos :frmNuevoDFacturaProducto" 
+                    onclick="wdlgNuevo.hide();"/>
+                <p:commandButton 
+                    value="Cancelar"
+                    immediate="true" 
+                    oncomplete="PF('wdlgNuevo').hide();" 
+                    type="reset"/>
+
+                </h:form>
+                        
+        </p:dialog>
+        
+        
+        
+    </ui:define>
+
+</ui:composition>

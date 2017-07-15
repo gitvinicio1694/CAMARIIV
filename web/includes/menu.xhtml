@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <style type="text/css">
+        @-moz-document url-prefix() {
+            li span.label-danger {
+                margin-top: -20px;
+            }
+        }
+    </style>
+<ui:include src="/includes/menu-search.xhtml"/>
+    <ul class="sidebar-menu">
+        <li>
+            <p:link href="/faces/index.xhtml">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+            </p:link>
+        </li>
+        <li>
+            <p:link href="/faces/cliente.xhtml" >
+                <i class="fa fa-book"></i>
+                <span>Cliente</span>
+            </p:link>
+        </li>
+        
+        <li>
+            <p:link href="/faces/producto.xhtml" >
+                <i class="fa fa-book"></i>
+                <span>Producto</span>
+            </p:link>
+        </li>
+        
+        <li>
+            <p:link href="/faces/factura.xhtml" >
+                <i class="fa fa-book"></i>
+                <span>Factura</span>
+            </p:link>
+        </li>
+    </ul>
+
+    <script type="text/javascript">
+        if (isMobile()) {
+            $('ul.sidebar-menu a.ui-link').click(function () {
+                $(this).prop('disabled', true);
+                showBar();
+            })
+        }
+    </script>
+
+</ui:composition>

@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../plantillas/general.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    
+            <ui:define name="content">
+                <h:form id="frmProductos">  
+                    <p:panel id="pnlProductos">
+                        
+                        <center><h1>TABLA PRODUCTOS</h1></center>
+                        
+                        <p:dataTable
+                            
+                            id="tblProductos"
+                            var="pro"
+                            value="#{cProducto.lista}"
+                            selectionMode="single"
+                            selection="#{cProducto.selectedProducto}"
+                            rowKey="#{pro.id_producto}">
+                            
+                            <p:column 
+                                headerText="CODIGO"
+                                style="width: 10%">
+                                <h:outputText value="#{pro.id_producto}" />
+                            </p:column>
+                            
+                            <p:column 
+                                headerText="NOMBRE"
+                                style="width: 30%">
+                                <h:outputText value="#{pro.nombre}" />
+                            </p:column>
+                            
+                            <p:column 
+                                headerText="STOCK"
+                                style="width: 30%">
+                                <h:outputText value="#{pro.stock}" />
+                            </p:column>
+                            
+                            
+                            <p:column 
+                                headerText="PRECIO_VENTA"
+                                style="width: 20%">
+                                <h:outputText value="#{pro.precio_venta}" />
+                            </p:column>
+        
+            <f:facet name="footer">
+             <p:commandButton 
+                 id="btnnuevo"  
+                 value="Nuevo" 
+                 oncomplete="PF('wdlgNuevo').show();" />  
+             
+             <p:commandButton 
+                 id="btnModificar" 
+                 value="Modificar" 
+                 oncomplete="PF('wdlgModificar').show();" 
+                 update=":frmModificarProducto" />
+             
+             <p:commandButton 
+                 id="btnEliminar" 
+                 value="Eliminar" 
+                 oncomplete="PF('wdlgEliminar').show();" 
+                 update="frmEliminarProducto" />  
+             
+        </f:facet>   
+        
+    </p:dataTable>
+         </p:panel>
+        </h:form>
+        
+                
+           <p:dialog 
+            
+                     
+            id="dlgAgregar" 
+            header="Nuevo Producto"
+            widgetVar="wdlgNuevo" 
+            modal="true"
+            resizable="false" 
+            showEffect="clip"
+            hideEffect="fold">
+               
+               
+            <h:form id="frmNuevoProducto">
+                <p:panelGrid 
+                    id="pngNuevoProducto" 
+                    columns="2">
+                    
+                   <h:outputText value="Código" />
+                    <p:inputText 
+                        required="true" 
+                        readonly="true"
+                        value="#{cProducto.selectedProducto.id_producto}" />
+                    
+                    <h:outputText value="Nombre" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se requiere un Nombre"
+                        value="#{cProducto.selectedProducto.nombre}" />
+                    <h:outputText value="Stock" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se el Stock"
+                        value="#{cProducto.selectedProducto.stock}" /> 
+                    
+                    <h:outputText value="Precio Venta" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se requiere el precio de la Venta"
+                        value="#{cProducto.selectedProducto.precio_venta}" />
+                    </p:panelGrid>   
+                
+                <p:commandButton
+                    
+                    value="ingresar"
+                    action="#{cProducto.insertar()}"
+                    update=":frmProductos:pnlProductos :frmNuevoProducto" 
+                    onclick="wdlgNuevo.hide();"/>
+                <p:commandButton 
+                    value="Cancelar"
+                    immediate="true" 
+                    oncomplete="PF('wdlgNuevo').hide();" 
+                    type="reset"/>
+
+                </h:form>
+            
+        </p:dialog>     
+                
+        <p:dialog 
+            id="dlgModificar" 
+            header="Modificar Producto"
+            widgetVar="wdlgModificar" 
+            modal="true"
+            resizable="false" 
+            showEffect="clip"
+            hideEffect="fold">
+            <h:form id="frmModificarProducto">
+                <p:panelGrid 
+                    id="pngNuevoProducto" 
+                    columns="2">
+                    
+                   <h:outputText value="Código" />
+                    <p:inputText 
+                        required="true" 
+                        readonly="true"
+                        value="#{cProducto.selectedProducto.id_producto}" />
+                    
+                    <h:outputText value="Nombre" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se requiere un Nombre"
+                        value="#{cProducto.selectedProducto.nombre}" />
+                    
+                    <h:outputText value="Stock" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se el Stock"
+                        value="#{cProducto.selectedProducto.stock}" /> 
+                    
+                    <h:outputText value="Precio Venta" />
+                    <p:inputText 
+                        required="true"
+                        requiredMessage="Se requiere el precio de la Venta"
+                        value="#{cProducto.selectedProducto.precio_venta}" />
+                    
+                    </p:panelGrid> 
+                
+                <p:commandButton 
+                    value="Modificar"
+                    action="#{cCliente.actualizar()}"
+                    update=":frmProductos:pnlProductos :frmModificarProducto"
+                    onclick="wdlg.hide()"/>
+                <p:commandButton 
+                    value="Cancelar" 
+                    onclick="wdlgModificar.hide()"
+                    type="reset" />
+            </h:form>
+        </p:dialog>
+             
+        <p:dialog 
+            
+            id="dlgEliminar" 
+            header="Eliminar Producto"
+            widgetVar="wdlgEliminar" 
+            modal="true"
+            resizable="false" 
+            showEffect="clip"
+            hideEffect="fold">
+            <h:form id="frmEliminarProducto">
+                <p:panelGrid 
+                    id="pngEliminarProducto" 
+                    columns="2">
+                    <h:outputText value="Código" />
+                    <h:outputText value="#{cProducto.selectedProducto.id_producto}" />
+                    <h:outputText value="Nombre" />
+                    <h:outputText value="#{cProducto.selectedProducto.nombre}" />
+                    <h:outputText value="Stock" />
+                    <h:outputText value="#{cProducto.selectedProducto.stock}" />  
+                    <h:outputText value="Precio Venta" />
+                    <h:outputText value="#{cProducto.selectedProducto.precio_venta}" />  
+                </p:panelGrid>
+                <p:commandButton 
+                    value="Eliminar"
+                    action="#{cProducto.eliminar()}"
+                    update=":frmProductos:pnlProductos :frmEliminarProducto" 
+                    onclick="wdlgEliminar.hide()"/>
+                <p:commandButton 
+                    value="Cancelar" 
+                    onclick="wdlgEliminar.hide()"
+                    type="reset" />
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>
